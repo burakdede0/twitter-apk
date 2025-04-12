@@ -1,10 +1,10 @@
-from apkmirror import Version, Variant
+from sites.apkmirror import Version, Variant
 from build_variants import build_apks
 from download_bins import download_apkeditor, download_revanced_bins
 import github
 from utils import panic, merge_apk, publish_release, report_to_telegram
 from download_bins import download_release_asset
-import apkmirror
+import sites.apkmirror as apkmirror
 import os
 import argparse
 
@@ -62,7 +62,7 @@ Changelogs:
 [integrations-{integrationsRelease["tag_name"]}]({integrationsRelease["html_url"]})
 """
 
-    build_apks(latest_version)
+    build_apks(latest_version.version)
 
     publish_release(
         latest_version.version,
@@ -73,7 +73,7 @@ Changelogs:
             f"twitter-piko-material-you-v{latest_version.version}.apk",
         ],
         message,
-        latest_version.version
+        latest_version.version,
     )
 
     report_to_telegram()
@@ -108,28 +108,28 @@ def main():
     else:
         print("No new version found")
         return
-    
+
     process(latest_version)
 
 
-def manual(version:str):
-    link = f'https://www.apkmirror.com/apk/x-corp/twitter/x-previously-twitter-{version.replace(".","-")}-release'
-    latest_version = Version(link=link,version=version)
+def manual(version: str):
+    link = f"https://www.apkmirror.com/apk/x-corp/twitter/x-previously-twitter-{version.replace('.', '-')}-release"
+    latest_version = Version(link=link, version=version)
     process(latest_version)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Piko APK')
+    parser = argparse.ArgumentParser(description="Piko APK")
     # 0 = auto; 1 = manual;
-    parser.add_argument('--m', action="store", dest='mode', default=0)
-    parser.add_argument('--v', action="store", dest='version', default=0)
-    
+    parser.add_argument("--m", action="store", dest="mode", default=0)
+    parser.add_argument("--v", action="store", dest="version", default=0)
+
     args = parser.parse_args()
     mode = args.mode
-    
-    if not mode: # auto
+
+    if not mode:  # auto
         main()
-    else: # manual
+    else:  # manual
         version = args.version
         if not version:
             raise Exception("Version is required.")

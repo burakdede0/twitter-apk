@@ -1,0 +1,5 @@
+https://apkcombo.com/checkin
+
+append fingerprint from checkin into the url which we get from the a tag with the variant class
+
+&package_name=pakcagename

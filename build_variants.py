@@ -1,8 +1,8 @@
-from apkmirror import Version
+from sites.apkmirror import Version
 from utils import patch_apk
 
 
-def build_apks(latest_version: Version):
+def build_apks(latest_version: str):
     # patch
     apk = "big_file_merged.apk"
     integrations = "bins/integrations.apk"
@@ -30,7 +30,7 @@ def build_apks(latest_version: Version):
         patches,
         apk,
         includes=common_includes,
-        out=f"x-piko-material-you-v{latest_version.version}.apk",
+        out=f"x-piko-material-you-v{latest_version}.apk",
     )
 
     patch_apk(
@@ -40,7 +40,7 @@ def build_apks(latest_version: Version):
         apk,
         includes=common_includes,
         excludes=["Dynamic color"],
-        out=f"x-piko-v{latest_version.version}.apk",
+        out=f"x-piko-v{latest_version}.apk",
     )
 
     patch_apk(
@@ -49,7 +49,7 @@ def build_apks(latest_version: Version):
         patches,
         apk,
         includes=["Bring back twitter"] + common_includes,
-        out=f"twitter-piko-material-you-v{latest_version.version}.apk",
+        out=f"twitter-piko-material-you-v{latest_version}.apk",
     )
 
     patch_apk(
@@ -59,5 +59,5 @@ def build_apks(latest_version: Version):
         apk,
         includes=["Bring back twitter"] + common_includes,
         excludes=["Dynamic color"],
-        out=f"twitter-piko-v{latest_version.version}.apk",
+        out=f"twitter-piko-v{latest_version}.apk",
     )

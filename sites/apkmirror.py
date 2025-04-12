@@ -29,14 +29,14 @@ class App:
 class FailedToFindElement(Exception):
     def __init__(self, message=None) -> None:
         self.message = (
-            f"Failed to find element{" "+message if message is not None else ""}"  # noqa: E501
+            f"Failed to find element{' ' + message if message is not None else ''}"  # noqa: E501
         )
         super().__init__(self.message)
 
 
 class FailedToFetch(Exception):
     def __init__(self, url=None) -> None:
-        self.message = f"Failed to fetch{" "+url if url is not None else ""}"  # noqa: E501
+        self.message = f"Failed to fetch{' ' + url if url is not None else ''}"  # noqa: E501
         super().__init__(self.message)
 
 
@@ -63,7 +63,7 @@ def get_versions(url: str) -> list[Version]:
                 continue
 
             version = version.string.strip()
-            link = f"https://www.apkmirror.com/{versionRow.find("a")["href"]}"
+            link = f"https://www.apkmirror.com/{versionRow.find('a')['href']}"
             out.append(Version(version=version, link=link))
 
     return out
@@ -86,7 +86,7 @@ def download_apk(variant: Variant):
         raise FailedToFindElement("Download button")
 
     download_page_link = (
-        f"https://www.apkmirror.com/{cast(Tag, downloadButton).attrs["href"]}"
+        f"https://www.apkmirror.com/{cast(Tag, downloadButton).attrs['href']}"
     )
 
     # get direct link
@@ -100,7 +100,7 @@ def download_apk(variant: Variant):
     if direct_link is None:
         raise FailedToFindElement("download link")
 
-    direct_link = f"https://www.apkmirror.com/{cast(Tag, direct_link).attrs["href"]}"
+    direct_link = f"https://www.apkmirror.com/{cast(Tag, direct_link).attrs['href']}"
     print(f"Direct link: {direct_link}")
 
     download(direct_link, "big_file.apkm", headers=HEADERS)
@@ -141,7 +141,7 @@ def get_variants(version: Version) -> list[Variant]:
         if link_element is None:
             print("Failed to find the link element")
 
-        link: str = f"https://www.apkmirror.com{link_element.attrs["href"]}"
+        link: str = f"https://www.apkmirror.com{link_element.attrs['href']}"
         variants.append(
             Variant(is_bundle=is_bundle, link=link, arcithecture=architecture)
         )
